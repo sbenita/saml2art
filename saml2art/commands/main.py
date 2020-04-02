@@ -4,7 +4,7 @@ from saml2art.commands.login import login_args, login_saml2art
 from saml2art.commands.configure import configure_saml2art, configure_args
 from saml2art.config.config import SAML2ArtConfig
 
-version = "0.0.2"
+version = "0.0.3"
 DEFAULT_CONFIG_FILE_PATH = "~/.saml2art"
 
 
