@@ -15,7 +15,7 @@ setup(
     long_description_content_type="text/markdown",
     url="",
     author="Shlomi Benita",
-    author_email="shlomi.benita@cyberark.com",
+    author_email="",
     classifiers=[
         "Intended Audience :: Developers",
         "Topic :: Software Development :: Build Tools",
