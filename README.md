@@ -16,7 +16,7 @@ The process is:
 
 ### Installation
 
-_saml2art_ can be installed by running `pip install black`. It requires Python 3.7.0+.
+_saml2art_ can be installed by running `pip install saml2art`. It requires Python 3.7.0+.
 
 
 ### Usage
@@ -43,6 +43,10 @@ The login command will connect to OKTA and obtain a SAML assertion.
 Then it will login to Artifactory and create an API Key for you.
 
 The API Key will be stored in ~/.netrc with the Artifactory host name.
+
+The recommended way is to run - _saml2art login_
+
+You will be prompted for the password in the terminal.
 
 ```
 usage: saml2art login [-h] [--password PASSWORD]
