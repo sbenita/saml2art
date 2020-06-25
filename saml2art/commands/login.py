@@ -2,22 +2,53 @@ import argparse
 from base64 import b64encode
 
 import requests
+import keyring
+from keyring.backends.OS_X import Keyring
+from keyring.errors import KeyringError, InitError, PasswordSetError
 
 from saml2art.config.config import SAML2ArtConfig
 from saml2art.exporter.netrc import NetrcExporter
 from saml2art.idp.okta import OktaIdP
 from saml2art.utils.httputils import validate_response
 
+PASS_KEY = 'saml2art'
+
+def set_keychain_password(username: str, password: str) -> None:
+    if password:
+        # save to keychain
+        try:
+            print("setting password to keychain")
+            keyring.set_keyring(Keyring())
+            keyring.set_password(PASS_KEY, username, password)
+            print("success")
+        except (PasswordSetError, InitError) as exc:
+            print(f"Error: unable to set keychain password, skipping, exception={exc}")
+
+def get_keychain_password(username: str) -> str:
+    # try to extract from keychain
+    try:
+        print("getting password from keychain")
+        keyring.set_keyring(Keyring())
+        return keyring.get_password(PASS_KEY, username)
+    except (InitError, KeyringError) as exc:
+        print(f"Error: unable to get keychain password, skipping, exception={exc}")
+        return ''
 
 def login_args(subparsers: argparse._SubParsersAction):
     parser = subparsers.add_parser('login', help='Generates Artifactory API Key and store it in netrc')
-    parser.add_argument('--password', dest='Password', help="Your IdP password", secure=True, type=str)
-
+    parser.add_argument('--password', dest='Password', help="Your IdP password", secure=True, type=str, default='')
 
 def login_saml2art(config: SAML2ArtConfig, args):
+    password = args.Password
+    if not password:
+        password = get_keychain_password(config.username)
+    else:
+        set_keychain_password(config.username, password)
+
     idp = OktaIdP(config.okta_org_host)
     print("Authenticating to the IdP service...")
-    idp.authenticate(config.username, args.Password)
+
+    idp.authenticate(config.username, password)
     saml_assertion = idp.get_saml_assertion(config.okta_app_url)
 
     # create a session to preserve cookies
