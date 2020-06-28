@@ -7,6 +7,12 @@ verify_ssl = true
 requests = "*"
 argparse-prompt = "*"
 lxml = "*"
+keyring = "*"
 
 [requires]
 python_version = "3.7"
+
+[dev-packages]
+setuptools = "*"
+wheel = "*"
+twine = "*"
