@@ -1,5 +1,6 @@
 import argparse
 from base64 import b64encode
+from sys import platform
 
 import requests
 import keyring
@@ -12,22 +13,26 @@ from saml2art.idp.okta import OktaIdP
 from saml2art.utils.httputils import validate_response
 
 PASS_KEY = 'saml2art'
+MACOS = 'darwin'
 
 def set_keychain_password(username: str, password: str) -> None:
+    if platform != MACOS:
+        return
     if password:
         # save to keychain
         try:
-            print("setting password to keychain")
+            print("Setting password in keychain")
             keyring.set_keyring(Keyring())
             keyring.set_password(PASS_KEY, username, password)
-            print("success")
         except (PasswordSetError, InitError) as exc:
             print(f"Error: unable to set keychain password, skipping, exception={exc}")
 
 def get_keychain_password(username: str) -> str:
+    if platform != MACOS:
+        return 
     # try to extract from keychain
     try:
-        print("getting password from keychain")
+        print("Getting password from keychain")
         keyring.set_keyring(Keyring())
         return keyring.get_password(PASS_KEY, username)
     except (InitError, KeyringError) as exc:
