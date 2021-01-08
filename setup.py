@@ -9,7 +9,7 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
 
 setup(
     name="saml2art",
-    version="0.0.4",
+    version="0.0.5",
     description="CLI tool which enables you to login and retrieve Artifactory credentials using OKTA Identity Provider",
     long_description=long_description,
     long_description_content_type="text/markdown",
