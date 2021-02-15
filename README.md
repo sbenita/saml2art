@@ -12,16 +12,10 @@ The process is:
 * Generate API Key
 * Store it in a netrc file (~/.netrc)
 
-## Installation and usage
-
-### Installation
-
-_saml2art_ can be installed by running `pip install saml2art`. It requires Python 3.7.0+.
-
 ## Local Development
-Please used the supplied yapf configuration file (.style file) and pylint configuration file (.pylintrc).
+Please used the included yapf configuration file (.style file) and pylint configuration file (.pylintrc).
 
-VScode configuration:
+### VScode configuration:
 ```
 "python.formatting.provider": "yapf",
 "python.linting.pylintArgs": [
@@ -37,6 +31,12 @@ VScode configuration:
 "python.linting.lintOnSave": true,
 "python.linting.pylintEnabled": true,
  ```
+
+## Installation and usage
+
+### Installation
+
+_saml2art_ can be installed by running `pip install saml2art`. It requires Python 3.7.0+.
 ### Usage
 
 #### Configuration
