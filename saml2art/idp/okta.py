@@ -3,7 +3,6 @@ from time import sleep
 
 import requests
 from lxml import html as lxmhtml
-
 from saml2art.mfa.duomfa import DuoMFA
 from saml2art.utils.httputils import validate_response
 
@@ -15,8 +14,11 @@ class OktaIdP:
         self.okta_session_token = ""
 
     def authenticate(self, user, pwd):
-        auth_response = validate_response(requests.post('https://%s/api/v1/authn' % self.okta_org_host,
-                                                        json={"username": user, "password": pwd}))
+        auth_response = validate_response(
+            requests.post('https://%s/api/v1/authn' % self.okta_org_host, json={
+                "username": user,
+                "password": pwd
+            }))
         auth_status = auth_response.json()['status']
         if auth_status == 'SUCCESS':
             self.okta_session_token = auth_response.json()['sessionToken']
@@ -42,12 +44,12 @@ class OktaIdP:
         duo_callback_url = \
             verify_response.json()['_embedded']['factor']['_embedded']['verification']['_links']['complete']['href']
         duo_mfa = DuoMFA(duo_host)
-        duo_signature_response = duo_mfa.authenticate("https://%s/signin/verify/duo/web" % self.okta_org_host,
-                                                      duo_signature)
+        duo_signature_response = duo_mfa.authenticate("https://%s/signin/verify/duo/web" % self.okta_org_host, duo_signature)
         duo_response_to_okta_data = {
             "id": factor_id,
             "stateToken": auth_response.json()['stateToken'],
-            "sig_response": duo_signature_response}
+            "sig_response": duo_signature_response
+        }
         validate_response(requests.post(duo_callback_url, data=duo_response_to_okta_data))
         return factor_id
 
@@ -55,8 +57,10 @@ class OktaIdP:
         okta_session_redirect_url = "https://%s/login/sessionCookieRedirect" % self.okta_org_host
 
         redirect_response = validate_response(
-            requests.get(okta_session_redirect_url, params={"checkAccountSetupComplete": "true",
-                                                            "token": self.okta_session_token,
-                                                            "redirectUrl": redirectUrl}))
+            requests.get(okta_session_redirect_url, params={
+                "checkAccountSetupComplete": "true",
+                "token": self.okta_session_token,
+                "redirectUrl": redirectUrl
+            }))
 
         return lxmhtml.fromstring(redirect_response.content).xpath('//input[@name="SAMLResponse"]/@value')[0]

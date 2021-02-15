@@ -8,6 +8,7 @@ class NoConfigFileException(Exception):
 
 
 class SAML2ArtConfig:
+
     def __init__(self):
         self.okta_org_host = ""
         self.okta_app_url = ""
@@ -16,9 +17,7 @@ class SAML2ArtConfig:
 
     def save(self, path="~/.saml2art"):
         config = configparser.ConfigParser()
-        config['Default'] = {'art_org_host': self.art_org_host,
-                             'okta_app_url': self.okta_app_url,
-                             'username': self.username}
+        config['Default'] = {'art_org_host': self.art_org_host, 'okta_app_url': self.okta_app_url, 'username': self.username}
         with open(os.path.expanduser(path), 'w+') as configfile:
             config.write(configfile)
 
