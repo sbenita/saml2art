@@ -1,4 +1,3 @@
-
 def validate_response(response, acceptable_codes=None):
     if acceptable_codes is None:
         acceptable_codes = [200]

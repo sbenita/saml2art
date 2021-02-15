@@ -4,6 +4,7 @@ from pathlib import Path
 
 
 class NetrcExporter:
+
     def export(self, path, host, username, password):
         print("Updating [%s]..." % path, end="")
         netrc_file_path = os.path.expanduser(path)

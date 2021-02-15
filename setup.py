@@ -27,7 +27,7 @@ setup(
         "requests>=2.23.0",
         "argparse-prompt>=0.0.4",
         "lxml>=4.5.0",
-        "keyring>=21.2.1"
+        "keyring>=22.0.0"
     ],
     entry_points={'console_scripts': ['saml2art=saml2art.commands.main:main']}
 )

@@ -18,7 +18,25 @@ The process is:
 
 _saml2art_ can be installed by running `pip install saml2art`. It requires Python 3.7.0+.
 
+## Local Development
+Please used the supplied yapf configuration file (.style file) and pylint configuration file (.pylintrc).
 
+VScode configuration:
+```
+"python.formatting.provider": "yapf",
+"python.linting.pylintArgs": [
+        "--rcfile",
+        "${workspaceRoot}/.pylintrc"
+    ],
+
+"python.formatting.yapfArgs": [
+        "--style",
+        "${workspaceRoot}/.style"
+    ],
+"python.linting.enabled": true,
+"python.linting.lintOnSave": true,
+"python.linting.pylintEnabled": true,
+ ```
 ### Usage
 
 #### Configuration
